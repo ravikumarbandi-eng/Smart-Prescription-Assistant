@@ -5,8 +5,32 @@ from fpdf import FPDF
 from datetime import datetime
 
 # ---------------- LOAD MODEL ----------------
-model = joblib.load("prescription_model.pkl")
-encoders = joblib.load("label_encoders.pkl")
+@st.cache_resource
+def load_model():
+    df = pd.read_csv("medical_prescription_dataset.csv")
+
+    from sklearn.preprocessing import LabelEncoder
+    from sklearn.ensemble import RandomForestClassifier
+
+    encoders = {}
+    for col in ["gender", "disease", "severity", "drug", "precaution"]:
+        le = LabelEncoder()
+        df[col] = le.fit_transform(df[col])
+        encoders[col] = le
+
+    X = df[["age", "weight", "gender", "disease", "severity", "symptom_score"]]
+    y = df["drug"]
+
+    model = RandomForestClassifier(
+        n_estimators=150,
+        max_depth=12,
+        random_state=42
+    )
+    model.fit(X, y)
+
+    return model, encoders
+
+model, encoders = load_model()
 
 st.set_page_config(
     page_title="Smart Prescription Assistant",
@@ -196,3 +220,4 @@ if st.session_state.history:
 # ---------------- FOOTER ----------------
 st.markdown("---")
 st.caption("⚠️ Disclaimer: This application is for educational purposes only and not a substitute for professional medical advice.")
+
