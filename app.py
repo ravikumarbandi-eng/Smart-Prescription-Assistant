@@ -44,7 +44,7 @@ if "history" not in st.session_state:
 
 # ---------------- HEADER ----------------
 st.markdown("<h1 style='text-align:center;'>🩺 Smart Prescription Assistant</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align:center;color:gray;'>AI-powered Medical Recommendation System</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align:center;color:gray;'>Machine Learning–Based Medical Decision Support System</p>", unsafe_allow_html=True)
 st.markdown("---")
 
 # ---------------- ACCURACY DISPLAY ----------------
@@ -220,4 +220,5 @@ if st.session_state.history:
 # ---------------- FOOTER ----------------
 st.markdown("---")
 st.caption("⚠️ Disclaimer: This application is for educational purposes only and not a substitute for professional medical advice.")
+
 
